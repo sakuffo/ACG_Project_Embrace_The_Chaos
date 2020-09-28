@@ -4,11 +4,7 @@ Cognito Commands:
 1) Using the CLI, create new identity pool, named DynamoPool, allow unauthenticated entities.
 **** (use ^ - Shift + 6 if you are a windows user, not \) ****
 
-    aws cognito-identity create-identity-pool \
-    --identity-pool-name DynamoPool \
-    --allow-unauthenticated-identities \
-    --output json
-       
+aws cognito-identity create-identity-pool --identity-pool-name DynamoPool --allow-unauthenticated-identities --output json       
 
 2) Create an IAM role named Cognito_DynamoPoolUnauth. 
 
@@ -24,13 +20,11 @@ aws iam get-role --role-name Cognito_DynamoPoolUnauth --output json
 
 5) Add our role to the Cognito Identity Pool. Replace the pool ID with your own pool ID and use the role ARN from the previous step.
 
-aws cognito-identity set-identity-pool-roles \
---identity-pool-id "us-east-1:87a7206a-2a85-4171-bb6d-cd6208dd9d00" \
---roles unauthenticated=arn:aws:iam::xxxxx:role/Cognito_DynamoPoolUnauthRole --output json
+aws cognito-identity set-identity-pool-roles --identity-pool-id "us-east-1:da4b6bec-0947-4f32-b2dd-dabcf9196ca1" --roles unauthenticated=arn:aws:iam::015684638550:role/Cognito_DynamoPoolUnauth --output json 
 
 6) Double check it worked using: 
 
-aws cognito-identity get-identity-pool-roles  --identity-pool-id "us-east-1:87a7206a-2a85-4171-bb6d-cd6208dd9d00"
+aws cognito-identity get-identity-pool-roles  --identity-pool-id "us-east-1:da4b6bec-0947-4f32-b2dd-dabcf9196ca1"
 
 7) We can now specify the Cognito credentials in our application - i.e. in the JavaScript section of our webpage!
 Replace the identity pool ID with your own and the role ARN with your own role ARN. 
@@ -38,7 +32,7 @@ We are going to add this snippet to our index.html:
 
 
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-IdentityPoolId: "us-east-1:87a7206a-2a85-4171-bb6d-cd6208dd9d00",
-RoleArn: "arn:aws:iam::xxxxx:role/Cognito_DynamoPoolUnauthRole"
+IdentityPoolId: "us-east-1:da4b6bec-0947-4f32-b2dd-dabcf9196ca1",
+RoleArn: "arn:aws:iam::015684638550:role/Cognito_DynamoPoolUnauth"
 });
 
